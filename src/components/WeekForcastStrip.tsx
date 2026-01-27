@@ -15,13 +15,13 @@ const days = [
 
 
   return (
-     <div className=" w-full max-w-[980px] h-[119px] mx-auto flex items-center justify-between gap-[10px] bg-white/10 backdrop-blur-md rounded-[20px] border border-white/20 shadow-lg px-[10px]">
+     <div className=" w-full max-w-[980px] h-[119px] mx-auto flex items-center justify-between gap-[10px] bg-white/10 backdrop-blur-md rounded-[20px] border border-white/20 shadow-lg px-[10px] mt-10">
       {days.map((day, idx) => (
         <div
           key={idx}
           className={`w-[127px] h-[79px] rounded-[20px] px-[10px] py-[10px] flex flex-col items-center justify-center text-white ${
             day.isActive
-              ? "bg-gradient-to-br from-yellow-400/30 to-yellow-500/20 border border-yellow-300/40"
+              ? "bg-gradient-to-br from-[#CC9706] to-yellow-500/20 border border-yellow-300/40"
               : "bg-white/10 border border-white/20"
           } backdrop-blur-md shadow-md`}
         >
