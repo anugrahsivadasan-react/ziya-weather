@@ -5,6 +5,10 @@ import WeekForcastStrip from "../components/WeekForcastStrip";
 import cloud1 from "../assets/cloud1.png";
 import cloud2 from "../assets/cloud1.png";
 import cloud3 from "../assets/cloud1.png";
+import day1 from "../assets/day1.png";
+import day2 from "../assets/day2.png";
+import day3 from "../assets/day3.png";
+
 
 interface HomeViewProps {
   darkMode: boolean;
@@ -15,7 +19,7 @@ const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
   return (
     <div
       className="relative w-full min-h-screen mx-auto p-6 space-y-6 overflow-hidden transition-colors
-      bg-blue-300 text-black
+      bg-[#8AC8F1] text-black
       dark:bg-[#171717] dark:text-white"
     >
       {/* Background with Clouds (always visible) */}
@@ -31,18 +35,35 @@ const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
 
   {/* Clouds */}
   <img
+    src={day1}
+    className="absolute top-16 left-10 w-32 opacity-70"
+    alt="cloud"
+  />
+  <img
+    src={day2}
+    className="absolute top-32 left-1/3 w-25 opacity-60"
+    alt="cloud"
+  />
+  <img
+    src={day3}
+    className="absolute top-[150px] left-[-300px] w-44 opacity-65"
+    alt="cloud"
+  />
+{/* dark */}
+
+  <img
     src={cloud1}
-    className="absolute top-16 left-10 w-48 opacity-70"
+    className="absolute top-16 right-10 w-32 opacity-70"
     alt="cloud"
   />
   <img
     src={cloud2}
-    className="absolute top-32 left-1/3 w-36 opacity-60"
+    className="absolute top-32 right-1/3 w-25 opacity-60"
     alt="cloud"
   />
   <img
     src={cloud3}
-    className="absolute top-20 right-20 w-44 opacity-65"
+    className="absolute top-[150px] right-[-300px] w-44 opacity-65"
     alt="cloud"
   />
 </div>
