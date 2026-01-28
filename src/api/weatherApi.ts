@@ -21,3 +21,9 @@ export const checkBackendHealth = async () => {
   const res = await API.get("/health");
   return res.data;
 };
+
+// GET → /hourly
+export const getHourlyForecast = async (place: string, hours: number = 12) => {
+  const res = await API.get(`/hourly?place=${place}&hours=${hours}`);
+  return res.data;
+};

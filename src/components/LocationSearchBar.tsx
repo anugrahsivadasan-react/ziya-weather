@@ -4,8 +4,11 @@ import axios from "axios";
 interface LocationSearchProps {
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  onResult?: (data: any) => void; // to pass API data to parent if needed
+  place: string;
+  setPlace: React.Dispatch<React.SetStateAction<string>>;
+  onResult?: (data: any) => void;
 }
+
 
 const API_URL = import.meta.env.VITE_BACKEND_URL; // ex: https://ai-weather-backend.onrender.com
 
