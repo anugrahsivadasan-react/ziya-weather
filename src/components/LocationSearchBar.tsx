@@ -53,7 +53,7 @@ export default function LocationSearch({
       "
     >
       {/* Heading */}
-      <h1 className="text-white text-xl sm:text-2xl font-semibold w-full sm:w-auto">
+      <h1 className="text-[#595958] dark:text-white text-xl sm:text-2xl font-semibold w-full sm:w-auto">
         AI Weather Prediction
       </h1>
 
@@ -86,13 +86,13 @@ export default function LocationSearch({
           value={place}
           onChange={(e) => setPlace(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="bg-transparent text-white placeholder-white outline-none flex-1"
+          className="bg-transparent text-[#595958] dark:text-white placeholder-white outline-none flex-1"
         />
 
         <button
           onClick={searchLocation}
           disabled={loading}
-          className="text-white text-sm opacity-80 hover:opacity-100"
+          className="text-[#595958] dark:text-white text-sm opacity-80 hover:opacity-100"
         >
           {loading ? "..." : "Go"}
         </button>

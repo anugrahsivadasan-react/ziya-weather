@@ -74,7 +74,7 @@ const HourlyTemperatureGraph: React.FC = () => {
       transition={{ duration: 0.8 }}
       className="w-full max-w-[1182px] mx-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-6 overflow-hidden mt-10"
     >
-      <p className="text-white mb-4 font-medium">Upcoming hours</p>
+      <p className="text-[#595958] dark:text-white mb-4 font-medium">Upcoming hours</p>
 
       <svg
         viewBox={`0 0 ${width} ${height}`}
@@ -207,7 +207,7 @@ const HourlyTemperatureGraph: React.FC = () => {
         )}
       </svg>
 
-      <div className="flex justify-between text-xs text-white/70 mt-2 px-2">
+      <div className="flex justify-between text-xs text-[#595958] dark:text-white mt-2 px-2">
         {hours.map((h, i) => (
           <span key={i}>{h}</span>
         ))}

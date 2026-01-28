@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getWeatherData } from "../api/weatherapi";
 
 // 👉 Import your Figma icons
 import feelsLikeIcon from "../assets/feelsLikeIcon.svg";
@@ -7,37 +8,98 @@ import windIcon from "../assets/windIcon.svg";
 import cloudIcon from "../assets/cloudIcon.svg";
 import rainIcon from "../assets/rainIcon.svg";
 
-const details = [
-  {
-    label: "Feels like",
-    value: "20°C",
-    icon: feelsLikeIcon,
-  },
-  {
-    label: "Humidity",
-    value: "20°C",
-    icon: humidityIcon,
-  },
-  {
-    label: "Wind",
-    value: "16 km",
-    icon: windIcon,
-  },
-  {
-    label: "Cloud cover",
-    value: "16%",
-    icon: cloudIcon,
-  },
-  {
-    label: "Rain",
-    value: "High",
-    icon: rainIcon,
-  },
-];
+interface LiveWeather {
+  temperature: number;
+  humidity: number;
+  precipitation: number;
+  cloud_cover: number;
+  wind_speed: number;
+  feels_like: number;
+}
 
-const WeatherDetailsPanel: React.FC = () => {
+interface WeatherDetailsPanelProps {
+  place?: string; // coming from search bar (LocationSearch)
+}
+
+const WeatherDetailsPanel: React.FC<WeatherDetailsPanelProps> = ({ place }) => {
+  const [liveWeather, setLiveWeather] = useState<LiveWeather | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [currentPlace, setCurrentPlace] = useState<string>("");
+
+  // Load last searched location on first load
+  useEffect(() => {
+    const savedPlace = localStorage.getItem("lastPlace") || "Aluva";
+    setCurrentPlace(savedPlace);
+    fetchWeather(savedPlace);
+  }, []);
+
+  // Whenever search bar place changes → update weather
+  useEffect(() => {
+    if (place && place.trim()) {
+      setCurrentPlace(place);
+      localStorage.setItem("lastPlace", place); // save as default
+      fetchWeather(place);
+    }
+  }, [place]);
+
+  const fetchWeather = async (location: string) => {
+    try {
+      setLoading(true);
+      const data = await getWeatherData(location);
+      setLiveWeather(data.live_weather);
+      console.log("Live Weather:", data.live_weather);
+    } catch (error) {
+      console.error("Error fetching live weather:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const details = [
+    {
+      label: "Feels like",
+      value: liveWeather ? `${liveWeather.feels_like.toFixed(1)}°C` : "--",
+      icon: feelsLikeIcon,
+    },
+    {
+      label: "Humidity",
+      value: liveWeather ? `${liveWeather.humidity.toFixed(0)}%` : "--",
+      icon: humidityIcon,
+    },
+    {
+      label: "Wind",
+      value: liveWeather ? `${liveWeather.wind_speed.toFixed(1)} km/h` : "--",
+      icon: windIcon,
+    },
+    {
+      label: "Cloud cover",
+      value: liveWeather ? `${liveWeather.cloud_cover.toFixed(0)}%` : "--",
+      icon: cloudIcon,
+    },
+    {
+      label: "Rain",
+      value: liveWeather
+        ? liveWeather.precipitation > 0
+          ? "Yes"
+          : "No"
+        : "--",
+      icon: rainIcon,
+    },
+  ];
+
   return (
     <div className="w-full max-w-[1182px] mx-auto mt-10 px-2">
+      {/* Location Title */}
+      <p className="text-white text-lg font-semibold mb-4">
+        Weather Details for: <span className="text-yellow-400">{currentPlace}</span>
+      </p>
+
+      {loading && (
+        <p className="text-center text-black dark:text-white mb-4">
+          Loading weather details...
+        </p>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {details.map((item, i) => (
           <div
@@ -51,10 +113,10 @@ const WeatherDetailsPanel: React.FC = () => {
 
             <div className="relative z-10 flex justify-between items-start">
               <div>
-                <p className="text-white text-xl font-semibold">
+                <p className="text-[#595958] dark:text-white text-xl font-semibold">
                   {item.value}
                 </p>
-                <p className="text-slate-300 text-sm mt-1">
+                <p className="text-slate-300 text-[#595958] dark:text-white text-sm mt-1">
                   {item.label}
                 </p>
               </div>

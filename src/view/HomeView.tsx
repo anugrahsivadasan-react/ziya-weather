@@ -19,6 +19,7 @@ interface HomeViewProps {
 
 const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
   const [weather, setWeather] = useState<any>(null);
+  const [selectedPlace, setSelectedPlace] = useState<string>("Kannur");
 
   return (
     <div
@@ -78,11 +79,17 @@ const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
         <LocationSearch
           darkMode={darkMode}
           setDarkMode={setDarkMode}
-          onResult={setWeather}
+          onResult={(data) => {
+            setWeather(data);
+            if (data?.place) {
+              setSelectedPlace(data.place); // 🔥 Connect location to WeekForcastStrip
+            }
+          }}
         />
 
         <section className="flex w-full max-w-[1182px] mx-auto">
-          <WeekForcastStrip />
+          {/* 🔥 Pass selectedPlace to WeekForcastStrip */}
+          <WeekForcastStrip place={selectedPlace} />
           <CurrentWeatherCard label="Today" temperature="22°C" />
         </section>
 
@@ -91,7 +98,7 @@ const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
         </section>
 
         <section>
-          <WeatherDetailsPanel />
+<WeatherDetailsPanel place={weather?.place} />
         </section>
       </div>
     </div>
