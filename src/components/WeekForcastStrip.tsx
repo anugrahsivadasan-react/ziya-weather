@@ -14,11 +14,12 @@ function WeekForcastStrip() {
     { label: "Sun", temp: "16°C" },
   ];
 
-  return (
+  return (  
+
     <div className="w-full max-w-[980px] h-[119px] mx-auto flex items-center justify-between gap-[10px] bg-white/10 backdrop-blur-md rounded-[20px] border border-white/20 shadow-lg px-[10px]">
       {days.map((day, idx) => {
         const isActive = active === idx;
-
+ 
         return (
           <button
             key={idx}
@@ -42,6 +43,7 @@ function WeekForcastStrip() {
           </button>
         );
       })}
+
     </div>
   );
 }

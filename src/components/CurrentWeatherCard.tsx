@@ -10,7 +10,7 @@ const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({
   temperature = "16°C",
 }) => {
   return (
-    <div className="relative w-[182px] h-[119px] rounded-2xl overflow-hidden">
+    <div className="relative w-[182px] h-[119px] rounded-2xl overflow-hidden  mt-10">
       {/* Glow background */}
       <div className="absolute inset-0 bg-yellow-400/30 blur-2xl scale-110" />
 

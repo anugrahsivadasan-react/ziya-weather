@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-const temps = [60, 20, 10, 10, 20, 22, 25, 23, 26, 22, 12, 14, 18, 22, 24];
+const temps = [60, 20, 10, 10, 20, 22, 25, 23, 26, 22, 12, 14, 18, 22, 44];
 const hours = [
   "Now","9:00","10:00","11:00","12:00","13:00","14:00",
   "15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"
@@ -72,7 +72,7 @@ const HourlyTemperatureGraph: React.FC = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="w-full max-w-[1182px] mx-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-6 overflow-hidden"
+      className="w-full max-w-[1182px] mx-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-6 overflow-hidden mt-10"
     >
       <p className="text-white mb-4 font-medium">Upcoming hours</p>
 
@@ -84,8 +84,9 @@ const HourlyTemperatureGraph: React.FC = () => {
       >
         <defs>
           <linearGradient id="waveGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#facc15" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#ca8a04" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="#F9DC9A" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#CC9706" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#665603" stopOpacity="0.25" />
           </linearGradient>
 
           <filter id="glow">
