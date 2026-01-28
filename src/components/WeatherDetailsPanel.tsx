@@ -43,7 +43,7 @@ const WeatherDetailsPanel: React.FC = () => {
           <div
             key={i}
             className="relative h-[130px] rounded-[20px] p-5 flex flex-col justify-between
-            bg-transparent backdrop-blur-xl border border-white/10
+            bg-transparent backdrop-blur-xl border border-white/30
             shadow-[0_0_30px_rgba(255,255,255,0.05)]"
           >
             {/* Glow */}
