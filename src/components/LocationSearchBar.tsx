@@ -49,7 +49,7 @@ export default function LocationSearch({
       className="
         max-w-[1162px] mx-auto flex items-center justify-between pt-[38px]
         px-4 sm:px-6 lg:px-0
-        flex-wrap gap-4
+        flex-wrap gap-4 mb-10
       "
     >
       {/* Heading */}
