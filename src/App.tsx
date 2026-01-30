@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { ToastContainer } from "react-toastify";
 
 import './App.css'
 import HomeView from './view/HomeView'
@@ -28,8 +29,14 @@ function App() {
 
 
   return (
+    <>
        <HomeView darkMode={darkMode} setDarkMode={setDarkMode} />
-
+         <ToastContainer position="top-right" autoClose={3000} 
+          toastStyle={{
+    background: darkMode ? "#1e293b" : "#e0f2fe",
+    color: darkMode ? "#ffffff" : "#0f172a",
+  }}/>
+</>
   )
 }
 
