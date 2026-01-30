@@ -19,7 +19,7 @@ interface HomeViewProps {
 
 const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
   const [weather, setWeather] = useState<any>(null);
-  const [selectedPlace, setSelectedPlace] = useState<string>("Kannur");
+const [selectedPlace, setSelectedPlace] = useState<string>("");
 
   return (
     <div
@@ -94,10 +94,10 @@ const HomeView: React.FC<HomeViewProps> = ({ darkMode, setDarkMode }) => {
         </section>
 
         <section>
-          <HourlyTemperatureGraph />
+          <HourlyTemperatureGraph place={selectedPlace}/>
         </section>
 
-        <section>
+        <section> 
 <WeatherDetailsPanel place={weather?.place} />
         </section>
       </div>

@@ -64,24 +64,28 @@ interface ForecastDay {
 }
 
 interface WeekForcastStripProps {
-  place?: string; // coming from your search (ex: "Kannur")
+  place: string;   // must come from search bar state
 }
 
-function WeekForcastStrip({ place = "Kannur" }: WeekForcastStripProps) {
+function WeekForcastStrip({ place }: WeekForcastStripProps) {
   const [active, setActive] = useState(0);
   const [days, setDays] = useState<
     { label: string; temp: string; date: string }[]
   >([]);
+  const [loading, setLoading] = useState(false);
 
-  // Convert date → Sunday, Monday, etc.
+  // Convert date → Sun, Mon, Tue...
   const getWeekDay = (dateStr: string) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", { weekday: "short" }); // Sun, Mon, Tue
+    return date.toLocaleDateString("en-US", { weekday: "short" });
   };
 
   useEffect(() => {
+    if (!place) return;   // don't fetch if place is empty
+
     const fetchForecast = async () => {
       try {
+        setLoading(true);
         const data = await get7DayForecast(place);
 
         const formatted = data.forecast.map((item: ForecastDay) => ({
@@ -91,41 +95,76 @@ function WeekForcastStrip({ place = "Kannur" }: WeekForcastStripProps) {
         }));
 
         setDays(formatted);
+        setActive(0); // reset highlight when place changes
       } catch (error) {
         console.error("7-day forecast error:", error);
+        setDays([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchForecast();
-  }, [place]);
+  }, [place]);  // 🔥 whenever searched place changes, API is called again
 
   return (
-    <div className="w-full max-w-[980px] h-[119px] mx-auto flex items-center justify-between gap-[10px] bg-white/10 backdrop-blur-md rounded-[20px] border border-white/20 shadow-lg px-[10px]">
-      {days.map((day, idx) => {
-        const isActive = active === idx;
+<div className="w-full max-w-[980px] h-[119px] mx-auto flex items-center justify-between gap-[10px]
+bg-white/12 backdrop-blur-2xl rounded-[20px] border border-white/40 shadow-lg px-[10px]">
 
-        return (
+      {loading && (
+        <p className="text-white text-sm text-center w-full">
+          Loading forecast for {place}...
+        </p>
+      )}
+
+      {!loading &&
+        days.map((day, idx) => {
+          const isActive = active === idx;
+
+          return (
           <button
   key={idx}
   onClick={() => setActive(idx)}
   className="relative w-[127px] h-[79px] rounded-[20px] px-[10px] py-[10px]
   flex flex-col items-center justify-center text-white
-  backdrop-blur-xl
-  border border-white/25
-  shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_10px_25px_rgba(0,0,0,0.25)]
-  overflow-hidden"
+  bg-transparent overflow-hidden"
 >
-  {/* Base glass tint */}
-  <div className="absolute inset-0 rounded-[20px] bg-white/10" />
+  {/* Glass fill (prevents parent bg leak) */}
+  <div
+    className="absolute inset-0 rounded-[20px]
+    bg-white/8 backdrop-blur-xl"
+  />
 
-  {/* Top light reflection */}
-  <div className="absolute -top-1 left-0 right-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent opacity-60" />
+  {/* Corner-broken border */}
+  <div
+    className="absolute inset-0 rounded-[20px] pointer-events-none"
+    style={{
+      background:
+        "linear-gradient(135deg, transparent 0%, rgba(255,255,255,.6) 18%, rgba(255,255,255,.6) 82%, transparent 100%)",
+      WebkitMask:
+        "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+      WebkitMaskComposite: "xor",
+      padding: "1px",
+    }}
+  />
 
-  {/* Bottom fade */}
-  <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/40 to-transparent" />
+  {/* Top reflection */}
+  <div
+    className="absolute top-0 left-0 right-0 h-[40%]
+    bg-gradient-to-b from-white/40 to-transparent"
+  />
 
-  {/* Noise */}
-  <div className="absolute inset-0 opacity-[0.08] bg-[url('/noise.png')] mix-blend-overlay" />
+  {/* Bottom shadow */}
+  <div
+    className="absolute bottom-0 left-0 right-0 h-[40%]
+    bg-gradient-to-t from-black/35 to-transparent"
+  />
+
+  {/* Inner light */}
+  <div
+    className="absolute inset-0 rounded-[20px]
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.45)]"
+  />
 
   {/* Active highlight */}
   {isActive && (
@@ -133,9 +172,9 @@ function WeekForcastStrip({ place = "Kannur" }: WeekForcastStripProps) {
       layoutId="weekHighlight"
       transition={{ type: "spring", stiffness: 220, damping: 26 }}
       className="absolute inset-0 rounded-[20px]
-      bg-gradient-to-br from-[#CC9706]/40 to-[#CC9706]/20
-      shadow-[0_0_20px_rgba(204,151,6,0.35)]
-      border border-[#CC9706]/40"
+      bg-[#CC9706]/45
+      shadow-[0_0_26px_rgba(204,151,6,0.55)]
+      border border-[#CC9706]/45"
     />
   )}
 
@@ -146,12 +185,15 @@ function WeekForcastStrip({ place = "Kannur" }: WeekForcastStripProps) {
     {day.temp}
   </span>
 </button>
- 
-        );
-      })}
+
+
+
+          );
+        })}
     </div>
   );
 }
 
 export default WeekForcastStrip;
+
 

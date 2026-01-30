@@ -102,32 +102,66 @@ const WeatherDetailsPanel: React.FC<WeatherDetailsPanelProps> = ({ place }) => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {details.map((item, i) => (
-          <div
-            key={i}
-            className="relative h-[130px] rounded-[20px] p-5 flex flex-col justify-between
-            bg-transparent backdrop-blur-xl border border-white/30
-            shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-          >
-            {/* Glow */}
-            <div className="absolute inset-0 rounded-[20px] bg-gradient-to-br from-white/10 to-transparent opacity-40 pointer-events-none" />
+         <div
+  key={i}
+  className="
+    relative h-[130px] rounded-[20px] p-5
+    flex flex-col justify-between
+    bg-transparent overflow-hidden isolate
+    shadow-[0_18px_35px_rgba(0,0,0,0.35)]
+  "
+>
+  {/* Glass fill (prevents bg leak) */}
+  <div className="absolute inset-0 rounded-[20px] bg-white/10 backdrop-blur-2xl" />
 
-            <div className="relative z-10 flex justify-between items-start">
-              <div>
-                <p className="text-[#595958] dark:text-white text-xl font-semibold">
-                  {item.value}
-                </p>
-                <p className="text-slate-300 text-[#595958] dark:text-white text-sm mt-1">
-                  {item.label}
-                </p>
-              </div>
+  {/* Broken corner border */}
+  <div className="absolute inset-0 rounded-[20px] pointer-events-none">
+    <div
+      className="
+        absolute inset-0 rounded-[20px] border border-white/70
+        [mask-image:
+          radial-gradient(circle at top left, transparent 0%, black 60%),
+          radial-gradient(circle at top right, transparent 0%, black 60%),
+          radial-gradient(circle at bottom left, transparent 0%, black 60%),
+          radial-gradient(circle at bottom right, transparent 0%, black 60%)
+        ]
+      "
+    />
+  </div>
 
-              <img
-                src={item.icon}
-                alt={item.label}
-                className="w-7 h-7 object-contain"
-              />
-            </div>
-          </div>
+  
+
+  {/* Bottom depth */}
+  <div className="absolute -top-4 left-0 right-0 h-[35%] bg-gradient-to-b from-white to-transparent" />
+
+{/* Top reflection */}
+ <div className="absolute bottom-0 left-0 right-0 h-[65%] bg-gradient-to-t from-black to-transparent" />
+
+  {/* Inner highlight */}
+  <div className="absolute inset-0 rounded-[20px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.45)]" />
+ 
+   
+
+
+  {/* Content */}
+  <div className="relative z-10 flex justify-between items-start">
+    <div>
+      <p className="text-[#595958] dark:text-white text-xl font-semibold">
+        {item.value}
+      </p>
+      <p className="text-[#595958] dark:text-white text-sm mt-1 opacity-80">
+        {item.label}
+      </p>
+    </div>
+
+    <img
+      src={item.icon}
+      alt={item.label}
+      className="w-7 h-7 object-contain"
+    />
+  </div>
+</div>
+
         ))}
       </div>
     </div>
