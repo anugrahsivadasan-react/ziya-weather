@@ -72,7 +72,7 @@ const HourlyTemperatureGraph: React.FC = () => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
-      className="w-full max-w-[1182px] mx-auto rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-6 overflow-hidden mt-10"
+      className="w-full max-w-[1182px] mx-auto  rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl p-6 overflow-hidden mt-10"
     >
       <p className="text-[#595958] dark:text-white mb-4 font-medium">Upcoming hours</p>
 
