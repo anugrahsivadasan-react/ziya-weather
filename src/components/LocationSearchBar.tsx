@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface LocationSearchProps {
   darkMode: boolean;
@@ -20,26 +22,33 @@ export default function LocationSearch({
   const [place, setPlace] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const searchLocation = async () => {
-    if (!place.trim()) return;
+ const searchLocation = async () => {
+  if (!place.trim()) return;
 
-    try {
-      setLoading(true);
-      const res = await axios.post(`${API_URL}/weather`, {
-        place: place,
-      });
+  try {
+    setLoading(true);
 
-      if (onResult) {
-        onResult(res.data);
-      }
-      console.log("Weather API Response:", res.data);
-    } catch (error) {
-      console.error("Error fetching weather data:", error);
-      alert("Unable to fetch weather data. Check backend connection.");
-    } finally {
-      setLoading(false);
+    const res = await axios.post(`${API_URL}/weather`, {
+      place,
+    });
+
+    // 🔥 Handle "location not found" (200 response)
+    if (res.data?.status === "error") {
+      toast.warning("Location not found");
+      return;
     }
-  };
+
+    // ✅ Valid location
+    onResult?.(res.data);
+    console.log("Weather API Response:", res.data);
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    toast.error("Unable to fetch weather data. Check backend connection.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

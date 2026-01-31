@@ -24,8 +24,8 @@ const [selectedPlace, setSelectedPlace] = useState<string>("");
   return (
     <div
       className="relative w-full min-h-screen mx-auto p-6 space-y-6 overflow-hidden transition-colors
-      bg-[#8AC8F1] text-black
-      dark:bg-[#171717] dark:text-white"
+      bg-[#8AC8F1] text-white
+      dark:bg-[#171717] dark:text-white"      
     >
       {/* Background with Clouds (always visible) */}
       <div
